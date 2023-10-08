@@ -1,9 +1,25 @@
-import React from "react";
+import React , {useState} from "react";
+import axios from "axios";
 import "./Weather.css";
 
 
-export default function Weather(){
-    return  <div className="Weather">
+export default function Weather() {
+    
+    const[weatherData , setWeatherData]=useState({ready: false})
+
+function handleResponse(response){
+    console.log(response.data);
+    setWeatherData({
+        ready:true,
+        temperature:response.data.temperature.current,
+        city:response.data.city,
+        date:"Tuesday"
+    })
+
+
+}
+if (weatherData.ready){
+ return  <div className="Weather">
         
         <form>
             <div className="row">
@@ -19,18 +35,18 @@ export default function Weather(){
             </div>
             </div>
         </form>
-       <h1>Pretoria</h1>
+       <h1>{weatherData.city}</h1>
        <img width="94" 
        height="94" 
        src="https://img.icons8.com/3d-fluency/94/cloud.png" 
        alt="cloud"/>
 
-       <h2>23°C</h2> 
+       <h2>{Math.round(weatherData.temperature)}°C</h2> 
        <div className="row">
         <div className="col-4">
          CURRENTLY
         </div>
-        <div className="col-4">
+        <div className="col-4 ">
 Cloudy
         </div>
         <div className="col-4">
@@ -39,35 +55,25 @@ Cloudy
        </div>
        <br></br>
        <br></br>
-       <div className="row">
-        <div className="col-4">
-            345mm
-            <br></br>
-            PRESSURE
-        </div>
-        <div className="col-4">
-            84%
-            <br></br>
-            HUMIDITY
-        </div>
-        <div className="col-4">
-            2mph
-            <br></br>
-            WIND
-        </div>
-       </div>
-       <br></br>
        <br></br>
        <div className="row">
         <div className="col-6">
-         Tuesday , 25 Dec
+         {weatherData.date}
         </div>
         <div className="col-6">
-            23°C / 15°F
+            {Math.round(weatherData.temperature)}°C / 15°F
         </div>
        </div>
         
         <hr></hr>
         </div>;
     
-};
+} else {
+     const apiKey="db3b7bt6a8b1a34f70o79e9676b95097";
+    let city="London";
+    let apiUrl=`https://api.shecodes.io/weather/v1/current?query=${city}&key=${apiKey}&units=metric`
+   axios.get(apiUrl).then(handleResponse);
+   
+   return "Searching for Temperature🛠🔎..."
+}   
+}

@@ -4,6 +4,7 @@
     font-family: cursive;
     background-color: color-mix(in xyz, aqua 50%, black 50%);
     color:black;
+    max-width: 700px;
 }
 .Weather h1{
     padding-top: 25px;
