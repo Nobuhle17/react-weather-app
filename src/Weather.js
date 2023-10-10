@@ -1,10 +1,10 @@
 import React , {useState} from "react";
+import FormattedDate from "./formattedDate";
 import axios from "axios";
 import "./Weather.css";
 
 
-export default function Weather() {
-    
+export default function Weather(props) {
     const[weatherData , setWeatherData]=useState({ready: false})
 
 function handleResponse(response){
@@ -13,7 +13,7 @@ function handleResponse(response){
         ready:true,
         temperature:response.data.temperature.current,
         city:response.data.city,
-        date:"Tuesday"
+        date:new Date (response.data.time * 1000)
     })
 
 
@@ -50,7 +50,7 @@ if (weatherData.ready){
 Cloudy
         </div>
         <div className="col-4">
-            18:35
+            
         </div>
        </div>
        <br></br>
@@ -58,7 +58,7 @@ Cloudy
        <br></br>
        <div className="row">
         <div className="col-6">
-         {weatherData.date}
+        <FormattedDate date={weatherData.date} />
         </div>
         <div className="col-6">
             {Math.round(weatherData.temperature)}°C / 15°F
