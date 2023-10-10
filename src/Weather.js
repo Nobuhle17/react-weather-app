@@ -63,5 +63,6 @@ if (weatherData.ready){
 } else {
     search();
    return "Searching for Temperature🛠🔎..."
-}   
+}  
+
 }
